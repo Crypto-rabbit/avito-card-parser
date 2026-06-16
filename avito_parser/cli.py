@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import random
 import sys
 import time
@@ -33,11 +34,11 @@ def main(argv: list[str] | None = None) -> int:
     page_delay = float(config.get("page_delay", 1.0))
 
     proxy_cfg = ProxyConfig(
-        http_proxy=config.get("http_proxy", ""),
-        https_proxy=config.get("https_proxy", config.get("http_proxy", "")),
-        rotate_url=config.get("rotate_url", ""),
-        cards_per_ip=int(config.get("cards_per_ip", 95)),
-        rotate_sleep=float(config.get("rotate_sleep", 8.0)),
+        http_proxy=os.getenv("AVITO_HTTP_PROXY", config.get("http_proxy", "")),
+        https_proxy=os.getenv("AVITO_HTTPS_PROXY", config.get("https_proxy", config.get("http_proxy", ""))),
+        rotate_url=os.getenv("AVITO_ROTATE_URL", config.get("rotate_url", "")),
+        cards_per_ip=int(os.getenv("AVITO_CARDS_PER_IP", config.get("cards_per_ip", 95))),
+        rotate_sleep=float(os.getenv("AVITO_ROTATE_SLEEP", config.get("rotate_sleep", 8.0))),
     )
     client = HttpClient(
         timeout=float(config.get("timeout", 30.0)),
