@@ -1,0 +1,2 @@
+"""Avito card parser package."""
+
