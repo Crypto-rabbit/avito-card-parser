@@ -139,9 +139,17 @@ def load_urls(path: str) -> list[str]:
 def collect_from_source(client: HttpClient, state: CrawlState, source_url: str, limit: int, page_delay: float) -> None:
     page = 1
     empty_pages = 0
+    source_block_retries = 0
     while len(state.queue) < limit and empty_pages < 2:
         page_url = with_page(source_url, page)
         response = client.get(page_url)
+        blocked = detect_block(response.text, response.status_code) if response.text else response.error
+        if blocked:
+            print(f"source blocked: {blocked}; rotating IP if configured")
+            if client.rotate_ip() and source_block_retries < 5:
+                source_block_retries += 1
+                continue
+            break
         if response.status_code != 200:
             break
         urls = extract_card_urls(page_url, response.text)
@@ -175,4 +183,3 @@ def safe_console(value: str) -> str:
 
 if __name__ == "__main__":
     raise SystemExit(main())
-
