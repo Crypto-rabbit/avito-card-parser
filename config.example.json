@@ -1,0 +1,23 @@
+{
+  "source_url": "https://www.avito.ru/krasnodar/mebel_i_interer/stoly_i_stulya/stoly",
+  "limit": 100,
+  "output_csv": "out/avito_report.csv",
+  "raw_json": "out/raw_cards.json",
+  "state_file": "out/state.json",
+  "timeout": 30,
+  "min_delay": 36,
+  "max_delay": 42,
+  "page_delay": 1,
+  "cards_per_ip": 95,
+  "http_proxy": "",
+  "https_proxy": "",
+  "rotate_url": "",
+  "rotate_sleep": 8,
+  "google_sheets": {
+    "enabled": false,
+    "credentials_path": "service-account.json",
+    "spreadsheet_id": "",
+    "range": "A1"
+  }
+}
+
